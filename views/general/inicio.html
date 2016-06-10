@@ -1,0 +1,18 @@
+{{extend 'layout.html'}}
+<h1>Welcome to Define, {{=usuario_nombre}}</h1>
+<form action='relacion'>
+    {{if len(termino) == 2:}}
+    <a href="{{=URL(c = 'general', f = 'importar')}}"><input type="button" value="Submit a term" /></a>
+    {{else:}}
+    <p>Choose a term:</p>
+    <p>
+        {{for term in termino:
+            if not term['ter'] in 'Nulo':}}
+            <input value="{{=term['id']}}" name = "termino" type="checkbox" />{{=term['ter']}}<br>
+            {{pass}}
+        {{pass}}
+        <input value="Ir" type="submit" />
+    </p>
+    <a href="{{=URL(c = 'general', f = 'importar')}}"><input type="button" value="Submit a new term" /></a>
+    {{pass}}
+</form>
