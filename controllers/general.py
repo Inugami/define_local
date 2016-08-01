@@ -21,15 +21,11 @@ Vista relacionada: default/inicio.html
 @auth.requires_login()
 def inicio():
     if (len(db((db.temporal.usuario_id == auth.user.id) & (db.temporal.modo == '2')).select()) == 0):
-        """usuario_nombre = auth.user.first_name
-        termino = db().select(db.termino.id, db.termino.ter)
-        if(request.vars.en == "1"):
-            response.flash = 'Lista de definiciones terminada'"""
         termino = db(db.termino.id > 1).select(db.termino.id)
         cadena_termino = ""
         for elemento in termino:
             termino_id = elemento['id']
-            cadena_termino = "termino=" + str(termino_id) + "&"
+            cadena_termino += "termino=" + str(termino_id) + "&"
         redirect(URL('relacion?' + cadena_termino + 'rd=2'))
     else:
         cadena_termino = ""
@@ -189,11 +185,12 @@ def getMuestra(lista_definiciones):
     tam = 0
     for lista in lista_definiciones:
         tam += len(lista)
+        print "Tamano: " + str(len(lista))
     if(tam < 10):
         max = tam
     while (i < max):
-        termino = int(random.uniform(0, len(lista_definiciones)))
-        definicion = int(random.uniform(0, len(lista_definiciones[termino])))
+        termino = int(random.uniform(1, len(lista_definiciones))) - 1
+        definicion = int(random.uniform(1, len(lista_definiciones[termino]))) - 1
         if noEnLista(lista_definiciones[termino][definicion]['id'], muestra):
             muestra.append(lista_definiciones[termino][definicion])
             i = i + 1
